@@ -18,7 +18,7 @@ rule rust
   command = cd $src_dir/rust_foo && cargo build
 
 rule cbindgen
-  command = cbindgen $src_dir/rust_foo -o $out
+  command = cbindgen --lang=c --cpp-compat $src_dir/rust_foo -o $out
   restat = true
 
 build $build_dir/lib.o: cxx $src_dir/lib.cpp | $src_dir/lib.h $src_dir/rust_foo/rust_foo.h
