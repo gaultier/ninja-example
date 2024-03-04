@@ -5,13 +5,13 @@
 extern "C" {
 #endif // __cplusplus
 
-void reverse(char *s, uint64_t len) {
-  for (uint64_t i = 0; i <= len / 2; i++) {
+void reverse(char *s, size_t len) {
+  for (size_t i = 0; i <= len / 2; i++) {
     std::swap(s[i], s[len - 1 - i]);
   }
 }
 
-void upper_case_first(char *s, uint64_t len) {
+void upper_case_first(char *s, size_t len) {
   if (len == 0)
     return;
   if ('a' <= s[0] && s[0] <= 'z')
