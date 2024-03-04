@@ -13,7 +13,7 @@ rule ld
   command = g++ $in -o $out
 
 rule rust
-  command = cd rust_foo && cargo build
+  command = cd rust_foo && cargo build && cp ./target/debug/librust_foo.a ..
 
 rule cbindgen
   command = cbindgen rust_foo -o $out
@@ -28,6 +28,6 @@ build rust_foo/rust_foo.h: cbindgen | rust_foo/src/lib.rs
 
 build example.o: cc example.c
 
-build example: ld example.o libfoo.a
+build example: ld example.o libfoo.a librust_foo.a
 
 default example
