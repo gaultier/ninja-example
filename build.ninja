@@ -1,0 +1,23 @@
+cflags = -Wall -Wextra -g
+
+rule cc
+  command = gcc $cflags -c $in -o $out
+
+rule cxx
+  command = g++ $cflags -c $in -o $out
+
+rule ar
+  command = ar rcs $out $in
+
+rule ld
+  command = clang -o $out $in -lc -lstdc++
+
+build lib.o: cxx lib.cpp | lib.h
+
+build libfoo.a: ar lib.o
+  
+build example.o: cc example.c
+
+build example: ld libfoo.a example.o
+
+default example
