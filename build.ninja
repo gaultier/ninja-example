@@ -3,22 +3,23 @@ build_dir = .build/
 src_dir = .
 
 rule cc
-  command = gcc $cflags -c $in -o $out
+  command = cc $cflags -c $in -o $out
 
 rule cxx
-  command = g++ $cflags -c $in -o $out
+  command = c++ $cflags -c $in -o $out
 
 rule ar
   command = ar rcs $out $in
 
 rule ld
-  command = g++ $in -o $out
+  command = c++ $in -o $out
 
 rule rust
   command = cd $src_dir/rust_foo && cargo build && cd .. && cp $src_dir/rust_foo/target/debug/librust_foo.a $out
 
 rule cbindgen
   command = cbindgen $src_dir/rust_foo -o $out
+  restat = true
 
 build $build_dir/lib.o: cxx $src_dir/lib.cpp | $src_dir/lib.h $src_dir/rust_foo/rust_foo.h
 
