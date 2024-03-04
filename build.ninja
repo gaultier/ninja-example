@@ -1,4 +1,6 @@
 cflags = -Wall -Wextra -g -fPIE
+build_dir = .build/
+src_dir = .
 
 rule cc
   command = gcc $cflags -c $in -o $out
@@ -13,22 +15,21 @@ rule ld
   command = g++ $in -o $out
 
 rule rust
-  command = cd rust_foo && cargo build && cp ./target/debug/librust_foo.a ..
+  command = cd $src_dir/rust_foo && cargo build && cd .. && cp $src_dir/rust_foo/target/debug/librust_foo.a $out
 
 rule cbindgen
-  command = cbindgen rust_foo -o $out
-  restat = true
+  command = cbindgen $src_dir/rust_foo -o $out
 
-build lib.o: cxx lib.cpp | lib.h rust_foo/rust_foo.h
+build $build_dir/lib.o: cxx $src_dir/lib.cpp | $src_dir/lib.h $src_dir/rust_foo/rust_foo.h
 
-build libfoo.a: ar lib.o
+build $build_dir/libfoo.a: ar $build_dir/lib.o
 
-build librust_foo.a: rust | rust_foo/src/lib.rs
+build $build_dir/librust_foo.a: rust | $src_dir/rust_foo/src/lib.rs
 
-build rust_foo/rust_foo.h: cbindgen | rust_foo/src/lib.rs
+build $src_dir/rust_foo/rust_foo.h: cbindgen | $src_dir/rust_foo/src/lib.rs
 
-build example.o: cc example.c
+build $build_dir/example.o: cc $src_dir/example.c
 
-build example: ld example.o libfoo.a librust_foo.a
+build $build_dir/example: ld $build_dir/example.o $build_dir/libfoo.a $build_dir/librust_foo.a
 
-default example
+default $build_dir/example
