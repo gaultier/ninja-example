@@ -1,5 +1,3 @@
-*.a
-*.o
-example
+.build
 .ninja_log
 .n2_db
