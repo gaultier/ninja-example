@@ -1,4 +1,4 @@
-cflags = -Wall -Wextra -g
+cflags = -Wall -Wextra -g -fPIE
 
 rule cc
   command = gcc $cflags -c $in -o $out
