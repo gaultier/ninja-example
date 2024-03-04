@@ -21,7 +21,7 @@ rule cbindgen
 build lib.o: cxx lib.cpp | lib.h rust_foo/rust_foo.h
 
 build libfoo.a: ar lib.o
-  
+
 build libfoo_rust.a: rust | rust_foo/src/lib.rs
 
 build rust_foo/rust_foo.h: cbindgen | rust_foo/src/lib.rs
