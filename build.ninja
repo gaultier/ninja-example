@@ -15,7 +15,7 @@ rule ld
   command = c++ $in -o $out
 
 rule rust
-  command = cd $src_dir/rust_foo && cargo build && cd .. && cp $src_dir/rust_foo/target/debug/librust_foo.a $out
+  command = cd $src_dir/rust_foo && cargo build
 
 rule cbindgen
   command = cbindgen $src_dir/rust_foo -o $out
@@ -25,12 +25,12 @@ build $build_dir/lib.o: cxx $src_dir/lib.cpp | $src_dir/lib.h $src_dir/rust_foo/
 
 build $build_dir/libfoo.a: ar $build_dir/lib.o
 
-build $build_dir/librust_foo.a: rust | $src_dir/rust_foo/src/lib.rs
+build $src_dir/rust_foo/target/debug/librust_foo.a: rust | $src_dir/rust_foo/src/lib.rs
 
 build $src_dir/rust_foo/rust_foo.h: cbindgen | $src_dir/rust_foo/src/lib.rs
 
 build $build_dir/example.o: cc $src_dir/example.c
 
-build $build_dir/example: ld $build_dir/example.o $build_dir/libfoo.a $build_dir/librust_foo.a
+build $build_dir/example: ld $build_dir/example.o $build_dir/libfoo.a $src_dir/rust_foo/target/debug/librust_foo.a
 
 default $build_dir/example
