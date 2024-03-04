@@ -1,15 +1,12 @@
 #include "lib.h"
+#include "rust_foo/rust_foo.h"
 #include <utility>
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-void reverse(char *s, size_t len) {
-  for (size_t i = 0; i <= len / 2; i++) {
-    std::swap(s[i], s[len - 1 - i]);
-  }
-}
+void reverse(char *s, size_t len) { rust_foo_reverse(s, len); }
 
 void upper_case_first(char *s, size_t len) {
   if (len == 0)

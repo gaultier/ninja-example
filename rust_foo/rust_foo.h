@@ -6,6 +6,6 @@
 
 extern "C" {
 
-void reverse(char *s, uintptr_t len);
+void rust_foo_reverse(char *s, uintptr_t len);
 
 } // extern "C"
