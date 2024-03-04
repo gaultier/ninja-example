@@ -12,10 +12,20 @@ rule ar
 rule ld
   command = g++ $in -o $out
 
+rule rust
+  command = cd rust_foo && cargo build
+
+rule cbindgen
+  command = cbindgen rust_foo -o $out
+
 build lib.o: cxx lib.cpp | lib.h
 
 build libfoo.a: ar lib.o
   
+build libfoo_rust.a: rust rust_foo/src/lib.rs
+
+build rust_foo/rust_foo.h: cbindgen | rust_foo/src/lib.rs
+
 build example.o: cc example.c
 
 build example: ld example.o libfoo.a
