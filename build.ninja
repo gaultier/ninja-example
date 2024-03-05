@@ -1,4 +1,5 @@
 cflags = -Wall -Wextra -g -fPIE
+cxxflags = -Wall -Wextra -g -fPIE
 build_dir = .build/
 src_dir = .
 
@@ -6,7 +7,7 @@ rule cc
   command = cc $cflags -c $in -o $out
 
 rule cxx
-  command = c++ $cflags -c $in -o $out
+  command = c++ $cxxflags -c $in -o $out
 
 rule ar
   command = ar rcs $out $in
